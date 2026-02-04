@@ -1,0 +1,189 @@
+---
+title: "Lao Map Boundary for Website"
+format: html
+execute: 
+  echo: false
+  warning: false
+---
+
+This repository provides administrative boundary maps at the province, district, and village levels based on 2015 data.
+
+Disclaimer: The CRS of these maps was modified from EPSG:32648 to EPSG:4326 for better compatibility with web mapping. Additionally, some village names have been corrected for typos, and incorrect dcodes allocated to villages have been fixed. 
+
+
+```{r}
+# Import library
+library(tidyverse)
+library(gt)
+library(leaflet)
+library(sf)
+library(paletteer)
+library(htmltools)
+library(glue)
+```
+
+```{r}
+# Read map
+map_adm1 <- st_read('/map/lao_adm1_province_level.geojson', quiet = TRUE)
+map_adm2 <- st_read('/map/lao_adm2_district_level.geojson', quiet = TRUE)
+map_adm3 <- st_read('/map/lao_adm3_village_level.geojson', quiet = TRUE)
+```
+
+```{r}
+# Set map colour
+colour <- paletteer_d("nationalparkcolors::Acadia")
+```
+
+```{r}
+labels_adm1 <- glue(
+  "<strong>Province/ແຂວງ:</strong> {map_adm1$pname} | {map_adm1$l_pname}<br/>
+    <strong>Pcode:</strong> {map_adm1$pcode}"
+) |>
+  lapply(HTML)
+
+labels_adm2 <- glue(
+  "<strong>Province/ແຂວງ:</strong> {map_adm2$pname} | {map_adm2$l_pname} <br>
+    <strong>Pcode:</strong> {map_adm2$pcode} <br>
+    <hr>
+    <strong>District/ເມືອງ:</strong> {map_adm2$dname} | {map_adm2$l_dname} <br>
+    <strong>Dcode:</strong> {map_adm2$dcode}"
+) |>
+  lapply(HTML)
+
+labels_adm3 <- glue(
+  "<strong>Province/ແຂວງ:</strong> {map_adm3$pname} | {map_adm3$l_pname} <br>
+    <strong>Pcode:</strong> {map_adm3$pcode} <br>
+    <hr>
+    <strong>District/ເມືອງ:</strong> {map_adm3$dname} | {map_adm3$l_dname} <br>
+    <strong>Dcode:</strong> {map_adm3$dcode} <br>
+    <hr>
+    <strong>Village/ບ້ານ:</strong> {map_adm3$vname} | {map_adm3$l_vname} <br>
+    <strong>Vcode:</strong> {map_adm3$vcode}"
+) |>
+  lapply(HTML)
+```
+
+## Map Preview
+
+
+### Province
+```{r}
+leaflet(map_adm1) |>
+  addTiles(group = "OpenStreetMap") |>
+  addProviderTiles(providers$CartoDB.Positron, group = "Positron (minimal)") |>
+  addPolygons(
+    fillColor = colour,
+    stroke = TRUE,
+    weight = 2,
+    color = "white",
+    opacity = 1,
+    dashArray = "3",
+    fillOpacity = .7,
+    highlightOptions = highlightOptions(
+      weight = 3,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    label = labels_adm1,
+    labelOptions = labelOptions(
+      style = list(
+        "font-weight" = "normal",
+        padding = "3px 8px",
+        textsize = "1rem",
+        direction = "auto"
+      )
+    ),
+  ) |>
+  addLayersControl(
+    baseGroups = c(
+      "OpenStreetMap",
+      "Positron (minimal)"
+    ),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+### District
+```{r}
+leaflet(map_adm2) |>
+  addTiles(group = "OpenStreetMap") |>
+  addProviderTiles(providers$CartoDB.Positron, group = "Positron (minimal)") |>
+  addPolygons(
+    fillColor = colour,
+    stroke = TRUE,
+    weight = 2,
+    color = "white",
+    opacity = 1,
+    dashArray = "3",
+    fillOpacity = .7,
+    highlightOptions = highlightOptions(
+      weight = 3,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    label = labels_adm2,
+    labelOptions = labelOptions(
+      style = list(
+        "font-weight" = "normal",
+        padding = "3px 8px",
+        textsize = "1rem",
+        direction = "auto"
+      )
+    ),
+  ) |>
+  addLayersControl(
+    baseGroups = c(
+      "OpenStreetMap",
+      "Positron (minimal)"
+    ),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+### Village
+```{r}
+leaflet(map_adm3) |>
+  addTiles(group = "OpenStreetMap") |>
+  addProviderTiles(providers$CartoDB.Positron, group = "Positron (minimal)") |>
+  addPolygons(
+    fillColor = colour,
+    stroke = TRUE,
+    weight = 2,
+    color = "white",
+    opacity = 1,
+    dashArray = "3",
+    fillOpacity = .7,
+    highlightOptions = highlightOptions(
+      weight = 3,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    label = labels_adm3,
+    labelOptions = labelOptions(
+      style = list(
+        "font-weight" = "normal",
+        padding = "3px 8px",
+        textsize = "1rem",
+        direction = "auto"
+      )
+    ),
+  ) |>
+  addLayersControl(
+    baseGroups = c(
+      "OpenStreetMap",
+      "Positron (minimal)"
+    ),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+## Data source
+
+National Geographic Department via [k4d.la](https://k4d.la/)
+

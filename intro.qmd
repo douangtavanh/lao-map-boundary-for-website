@@ -24,9 +24,9 @@ library(glue)
 
 ```{r}
 # Read map
-map_adm1 <- st_read('/map/lao_adm1_province_level.geojson', quiet = TRUE)
-map_adm2 <- st_read('/map/lao_adm2_district_level.geojson', quiet = TRUE)
-map_adm3 <- st_read('/map/lao_adm3_village_level.geojson', quiet = TRUE)
+map_adm1 <- st_read('map/lao_adm1_province_level.geojson', quiet = TRUE)
+map_adm2 <- st_read('map/lao_adm2_district_level.geojson', quiet = TRUE)
+map_adm3 <- st_read('map/lao_adm3_village_level.geojson', quiet = TRUE)
 ```
 
 ```{r}

@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "Lao Map Boundary for Website",
+    "section": "",
+    "text": "This repository provides administrative boundary maps at the province, district, and village levels based on 2015 data.\nDisclaimer: The CRS of these maps was modified from EPSG:32648 to EPSG:4326 for better compatibility with web mapping. Additionally, some village names have been corrected for typos, and incorrect dcodes allocated to villages have been fixed."
+  },
+  {
+    "objectID": "intro.html#map-preview",
+    "href": "intro.html#map-preview",
+    "title": "Lao Map Boundary for Website",
+    "section": "Map Preview",
+    "text": "Map Preview\n\nProvince\n\n\n\n\n\n\n\n\nDistrict\n\n\n\n\n\n\n\n\nVillage"
+  },
+  {
+    "objectID": "intro.html#data-source",
+    "href": "intro.html#data-source",
+    "title": "Lao Map Boundary for Website",
+    "section": "Data source",
+    "text": "Data source\nNational Geographic Department via k4d.la"
+  }
+]
